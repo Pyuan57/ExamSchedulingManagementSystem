@@ -1,4 +1,4 @@
-# Exam Scheduling Management System
+![2nf](https://github.com/user-attachments/assets/6471ed85-ac3e-4431-8bbe-beddea733914)# Exam Scheduling Management System
 This database system is developed for exam scheduling management. Information has been collected from each faculty in MMU and report according to each category. 
 
 ### Lecturers
@@ -35,6 +35,17 @@ Each lecturer can book the venue for examination for each subject. Booking numbe
 ![Picture1](https://github.com/user-attachments/assets/06b2959e-491d-43a0-b9bd-ab0fdb065299)
 ### Chen's Model:
 ![Picture2](https://github.com/user-attachments/assets/8f4a2c4b-28a6-4325-bbe1-a9119c84d475)
+
+## Normalization
+### 1NF:
+![1nf](https://github.com/user-attachments/assets/2a6fdc4d-d25a-4ceb-b85f-45337f82dc9f)
+### 2NF:
+![2nf](https://github.com/user-attachments/assets/1bc90ec4-c097-4eb2-a9d0-863c852bc4a1)
+### 3NF:
+![3nf](https://github.com/user-attachments/assets/a999131d-a7e5-4f30-a1ae-158b9aa2fcfc)
+
+
+
 
 
 
