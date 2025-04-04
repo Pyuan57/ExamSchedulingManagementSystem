@@ -1,0 +1,596 @@
+TDB PROJECT SQL COMMAND:
+
+a)The subsequent queries initiate the process of creating the database that stores the records. The content comprises the CREATE and INSERT SQL statements of the database. 
+
+CREATE DATABASE ExamSchedulingManagementSystem;
+
+CREATE TABLE FACULTY(
+Fac_Code VARCHAR(4) NOT NULL,
+Fac_Name VARCHAR(50),
+PRIMARY KEY(Fac_Code));
+
+CREATE TABLE LECTURER(
+Lec_ID CHAR(10) NOT NULL,
+Lec_Name VARCHAR(50),
+Lec_Address VARCHAR(150),
+Lec_Ctnum VARCHAR(12),
+Fac_Code VARCHAR(4) NOT NULL,
+Lec_Email VARCHAR(30),
+PRIMARY KEY(Lec_ID),
+FOREIGN KEY (Fac_Code) REFERENCES FACULTY(Fac_Code)
+ON DELETE RESTRICT ON UPDATE CASCADE);
+
+CREATE TABLE STUDENT(
+Std_ID CHAR(10) NOT NULL,
+Std_Name VARCHAR(50),
+Std_Birth DATE,
+Std_IC VARCHAR(14),
+Std_Ctnum VARCHAR(12),
+Std_Address VARCHAR(150),
+Fac_Code VARCHAR(4) NOT NULL,
+Std_Nation VARCHAR(20),
+Std_Grade DECIMAL(4,2),
+Std_InMonth VARCHAR(2),
+Std_Email VARCHAR(45),
+PRIMARY KEY(Std_ID),
+FOREIGN KEY (Fac_Code) REFERENCES FACULTY(Fac_Code)
+ON DELETE RESTRICT ON UPDATE CASCADE);
+
+CREATE TABLE SUBJECT (
+Sub_Code VARCHAR(9) NOT NULL,
+Sub_Name VARCHAR(45),
+Fac_Code VARCHAR(4) NOT NULL,
+Credit_Hour INTEGER(1),
+Ex_Time DECIMAL(2,1) NOT NULL,
+PRIMARY KEY (Sub_Code),
+FOREIGN KEY (Fac_Code) REFERENCES FACULTY(Fac_Code)
+ON DELETE RESTRICT ON UPDATE CASCADE);
+
+CREATE TABLE VENUE (
+Venue_Code VARCHAR(8) NOT NULL,
+Venue_Name VARCHAR(30),
+Venue_Capacity INTEGER(3) NOT NULL,
+PRIMARY KEY (Venue_Code));
+
+CREATE TABLE BOOKING (
+Book_Code VARCHAR(6) NOT NULL,
+Book_Date DATE NOT NULL,
+Book_Stime TIME NOT NULL,
+Book_Etime TIME NOT NULL,
+Venue_Code VARCHAR(8) NOT NULL,
+Sub_Code VARCHAR(9) NOT NULL,
+PRIMARY KEY (Book_Code),
+FOREIGN KEY (Venue_Code) REFERENCES VENUE(Venue_Code)
+ON DELETE RESTRICT ON UPDATE CASCADE,
+FOREIGN KEY (Sub_Code) REFERENCES SUBJECT(Sub_Code)
+ON DELETE RESTRICT ON UPDATE CASCADE);
+
+CREATE TABLE ASSIGNMENT (
+Lec_ID CHAR(10) NOT NULL,
+Sub_Code VARCHAR(9) NOT NULL,
+PRIMARY KEY(Lec_ID, Sub_Code),
+FOREIGN KEY(Lec_ID) REFERENCES LECTURER(Lec_ID)
+ON DELETE RESTRICT ON UPDATE CASCADE,
+FOREIGN KEY(Sub_Code) REFERENCES SUBJECT(Sub_Code)
+ON DELETE RESTRICT ON UPDATE CASCADE);
+
+CREATE TABLE REGISTRATION(
+Std_ID CHAR(10) NOT NULL,
+Sub_Code VARCHAR(9) NOT NULL,
+PRIMARY KEY(Std_ID, Sub_Code),
+FOREIGN KEY(Std_ID) REFERENCES STUDENT(Std_ID)
+ON DELETE RESTRICT ON UPDATE CASCADE,
+FOREIGN KEY(Sub_Code) REFERENCES SUBJECT(Sub_Code)
+ON DELETE RESTRICT ON UPDATE CASCADE);
+
+INSERT INTO FACULTY VALUE
+('FOB', 'Faculty of Business'),
+('FIST', 'Faculty of Information Science & Technology'),
+('FET', 'Faculty of Engineering & Technology'),
+('FOL', 'Faculty of Law');
+
+INSERT INTO LECTURER VALUES('10010010', 'Edmund Poy Jia Tong', '290, Jalan Perak 2, Taman Bukit Indah, 81000 Kulai, Johor', '010-8479930', 'FET', 'edmund@mmu.edu.my');
+INSERT INTO LECTURER values('10020011', 'Liew Xin Tong', '308, Jalan Intan 5, Taman Matahari, 80200 Danga Bay, Johor', '018-7627072', 'FOL', 'xtliew@mmu.edu.my');
+INSERT INTO LECTURER values('10054306', 'Aziera Natasya Binti Isham Muddin', '58, Jalan Bunga Mawar 9, 81100 Bandar Dato Onn, Johor', '010-5568088', 'FOB', 'aziera@mmu.edu.my');
+INSERT INTO LECTURER values('10078009', 'Hari Tharan a/l Sree Thren', '76, Jalan Gereja, Taman Emas, 32400 Ayer Tawar, Perak','011-78004563', 'FIST', 'haritharan@mmu.edu.my');
+INSERT INTO LECTURER values('10025008', 'Michelle Lai Xue Yee', '301, Jalan Besar, Kampung Merbau, 32400 Ayer Tawar, Perak', '012-7112205', 'FOB', 'xylai@mmu.edu.my');
+INSERT INTO LECTURER values('10050034', 'Chia Yi Feng', '107, Jalan Durian 4, Kampung Pedas, 71400, Rembau, Negeri Sembilan', '010-8409902', 'FET', 'yfchia@mmu.edu.my');
+INSERT INTO LECTURER values('10012001', 'Muhammad Syahmi bin Hassim', '55, Jalan Bunga Kekwa 7, Taman Perak, 71800 Nilai, Negeri Sembilan', '010-8619250', 'FOL', 'syahmi@mmu.edu.my');
+INSERT INTO LECTURER values('10036002', 'Lim Yew Wei', '32, Jalan Orkid 6, Taman Dusun, 01504 Kangar, PerliS', '010-7590413', 'FIST', 'ywlim@mmu.edu.my');
+INSERT INTO LECTURER values('10050032', 'Nur Elisya Nabila binti Azlan', '28, Jalan Bunga Matahari, Kampung Melayu, 05710 Alor Setar, Kedah', '016-5463211', 'FOB', 'nurelisya@mmu.edu.my');
+INSERT INTO LECTURER values('10010056', 'Edward Anthony Masen', '34, Jalan Ros 2, Batu Gajah, 77300 Merlimau, Melaka', '010-6941314', 'FIST', 'edward@mmu.edu.my');
+INSERT INTO LECTURER values('10060021', 'Tan Suh Shy', '101, Jalan TT5, Taman Titi, 71650 Titi, Negeri Sembilan', '012-5130208', 'FOL', 'sstan@mmu.edu.my');
+INSERT INTO LECTURER values('10030078', 'Lee Wai Siew', '89, Jalan Mangga 3, Kampung Jelapang, 21450, Chalok, Terengganu', '017-3428510', 'FOB', 'wslee@mmu.edu.my');
+INSERT INTO LECTURER values('10050921', 'Joel Jeyamaran a/l Sathya Maran', '81, Jalan Borneo, Borneo Paradise, 88200 Kota Kinabalu, Sabah', '012-7080681', 'FOL', 'joeljeyamaran@mmu.edu.my');
+INSERT INTO LECTURER values('10040021', 'Leonard Chang Kok Qiang', '35, Jalan Orkid, Taman Indah, 73000 Tampin, Negeri Sembilan', '010-7781202', 'FOL', 'leonard@mmu.edu.my');
+INSERT INTO LECTURER values('10030510', 'Tjeong Kae Fu', '78, Jalan Anggerik 4, Taman Aman, 12300 Butterworth, Pulau Pinang', '011-94127878', 'FET', 'kftjeong@mmu.edu.my');
+
+INSERT INTO STUDENT values('1211109425', 'Chan Jia Xuan', '2004-04-18', '040418-01-0780', '010-8369090', '287, Jalan Perak 3, Taman Bersatu, 81000 Kulai, Johor', 'FIST', 'Malaysian', '3.55', '8', '1211109425@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211111730', 'Chang Hui Ming', '2004-09-29', '040929-05-0426', '017-6830201', '101, Jalan TT5, Taman Titi, 71650 Titi, Negeri Sembilan', 'FIST', 'Malaysian', '3.87', '8', '1211111730@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211110647', 'Chong Zhi Tian', '2004-11-19', '041119-05-0058', '011-10988136', '6772, Taman Clonlee, 73000 Tampin, Negeri Sembilan', 'FIST', 'Malaysian', '3.99', '8', '1211110647@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211109079', 'Goh Peng Yuan', '2004-05-07', '040507-04-0295','010-2069712', '97, Jalan Seri Telok Emas 1, Taman Telok Emas, 75460 Melaka', 'FIST', 'Malaysian', '3.89', '8', '1211109079@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211109738', 'Phung Yi Xuan', '2004-05-30', '040530-01-0262', '010-8809679', 'D-15-01, Jalan D1, Ixora Apartment, 75450 Bukit Beruang, Melaka', 'FIST', 'Malaysian', '3.90', '8', '1211109738@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211109997', 'Tan Zhi Heng', '2004-09-22', '040922-01-8425', '016-9023909', 'JC 2209 Jalan Bukit Beruang, Fasa 9 Bukit Beruang 75450, Melaka', 'FIST', 'Malaysian', '3.76', '8', '1211109997@student.mmu.edu.my'); 
+INSERT INTO STUDENT values('1211109457', 'Do Wai Lung', '2004-03-31', '040331-01-0147', '011-10599609', '28, Jalan Berlian 5, Taman Berlian, 83700 Yong Peng, Johor', 'FIST', 'Malaysian', '4.0', '8', '1211109457@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221103456', 'Gan Chin Shan','2003-11-07', '031107-04-1190', '011-56575401', '303, Jalan Mangga 4, Taman Emas, 81000 Kulai, Johor', 'FOL', 'Malaysian', '4.00', '3', '1221103456@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221180462', 'Ng Chong Ming', '2004-01-31', '040131-07-3113', '010-67340992', '178， Jalan Rambutan 2, Bandar Sunway, 13700 Perai, Pulau Pinang', 'FET', 'Malaysian','3.43', '3', '1221180462@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221180457', 'Siow Hui Shan', '2004-07-21', '040721-08-1330', '012-6329265', '42, Jalan Hosapa, 71650 Titi, Negeri Sembilan', 'FOL', 'Malaysian', '3.66', '3', '1221180457@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221106113', 'Siow Shan Yen', '2003-08-03', '030803-05-0088', '010-4521091', '57, Jalan Miri 4, Taman Intan, 02000 Kuala Perlis, Perlis', 'FOB', 'Malaysian', '3.71', '3', '1221106113@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211111620', 'Anies Sofea binti Mohd Najib', '04-11-27','041127-08-3340', '016-89329903', '23, Jalan Lumut 4, Lumut, 32000 Sitiawan, Perak', 'FOB', 'Malaysian', '3.32', '8', '1211111620@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211111545', 'Li Ping Ho', '04-01-26', 'EF1260892', '011-92014532', 'B-16-02, Jalan D1, Ixora Apartment, 75450, Bukit Beruang, Melaka', 'FOL', 'Chinese', '3.54', '8', '1211111545@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221176320', 'Norhashimah binti Iros', '03-07-31', '030731-10-0202', '012-7865433', '65, Jalan Timah 7, Taman Sentosa, 40400 Shah Alam, Selangor', 'FET', 'Malaysian', '3.12', '3', '1221176320@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221170890', 'Muhammad Zainul Aizat bin Zamri', '2003-11-12', '031112-02-1163', '019-4582100', '91, Jalan Ampang 3, Kampung Dusun, 09000 Kulim, Kedah', 'FET', 'Malaysian', '3.66', '3', '1221170890@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211109372', 'Syafiq Khuzairy bin Hazrul Nizam', '2004-02-23', 'S865498E', '011-45392367', 'A-04-02, Jalan D1, Ixora Apartment, 75450, Bukit Beruang, Melaka', 'FET', 'Singaporean', '3.87', '8', '1211109372@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231106320', 'Wong Jun Wen', '2004-04-23', 'S7502169E', '011-32251904', 'B-09-3A, Jalan D1, Ixora Apartment, 75450, Bukit Beruang, Melaka', 'FOB','Singaporean', '3.53', '10', '1231106320@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231107235', 'Muhammad Haziq bin Hairolnizam', '2004-12-13', '041212-03-8119', '012-8430277', '90, Jalan Gajah 8, Kampung Pauh, 18500 Machang, Kelantan', 'FOL', 'Malaysian', '3.42', '10', '1231107235@student.mme.edu.my');
+INSERT INTO STUDENT values('1231109254', 'Kai Jie Chen', '2003-11-05', 'EI5489721', '011-24017885', 'D-16-08, Jalan D1, Ixora Apartment, 75450 Bukit Beruang, Melaka', 'FET', 'Chinese', '3.94', '10', '1231109254@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231111903', 'Xiang Ying Zeng', '2003-12-23', 'EF8490246', '011-41195006', 'D-15-07, Jalan D1, Ixora Apartment, 75450 Bukit Beruang, Melaka', 'FOB', 'Chinese', '3.19', '10', '1231111903@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221109172', 'Shaqir Ikhwan bin Sali', '2003-10-28', 'S5683290E', '011-32953770', 'C-17-02, Jalan D1, Ixora Apartment, 75450 Bukit Beruang, Melaka', 'FOB', 'Singaporean', '3.61', '3', '1221109172@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211116788', 'Yip Xin Ran', '2004-10-29', '041029-05-0234', '011-10874720', '12, Jalan Titan, Taman Lily, 71650, Kuala Klawang, Negeri Sembilan', 'FIST', 'Malaysian', '3.98', '8', '1211116788@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221176290', 'Lim Sheng Wei', '2004-07-29', '040729-05-3789', '012-46374729', '52, Jalan Titan, Taman Lily, 71650, Kuala Klawang, Negeri Sembilan', 'FOB', 'Malaysian', '3.97', '3', '1221176290@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231145307', 'Chin You Cheng', '2004-02-21', '040221-08-3473', '012-46384620', '36, Jalan Aman, Taman Bahagia, 32000, Lumut, Perak', 'FOL', 'Malaysian', '3.62', '10', '1231145307@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211163749', 'Siow Yi Yik', '2004-05-15', '040515-02-4357', '017-64729463', '47, Jalan Curry, Taman Biru, 09000, Kulim, Kedah', 'FOL', 'Malaysian', '2.67', '8', '1211163749@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221163823', 'Siow Lee Sin', '2004-09-01', '040901-05-3412', '012-37462739', '79, Jalan Hitam, Taman Awan, 71600, Kuala Klawang, Negeri Sembilan', 'FOB', 'Malaysian', '3.00', '3', '1221163823@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231146580', 'Low Chen Kian', '2004-06-27', '040627-10-4625', '011-46284927', '32, Jalan Hijau, Taman Seni, 40400, Shah Alam, Selangor', 'FOL', 'Malaysian', '2.5', '10', '1231146580@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211111161', 'Lim Jia Xin', '2004-06-02','040602-04-0146', '011-15358776', '29, Jalan Orkid 2, Taman Ampang, 73000 Tampin, Negeri Sembilan', 'FOB', 'Malaysian', '2.99', '8', '1211111161@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221190438', 'Lim Keng Aik', '2003-10-12', '031012-11-4331', '012-7411030', '53, Jalan Chendering 8, Taman Bahagia, 21080 Kuala Terengganu, Terengganu', 'FET', 'Malaysian', '3.30', '3', '1221190438@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231110780', 'Mohammad Daish bin Mohammad Hisam', '2004-11-03', 'S4587329E', '011-39926017', 'C-10-01, Jalan D1, Ixora Apartment, 75450, Bukit Beruang, Melaka', 'FOL', 'Singaporean', '3.28', '10', '1231110780@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221109328', 'Jia Heak Tang', '2003-07-24', 'EI34675091', '011-34299012', 'A-18-3A, Jalan D1, Ixora Apartment, 75450, Bukit Beruang, Melaka', 'FIST', 'Chinese', '3.21', '3', '1221109328@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231110439', 'Yau Kiem Leong', '2004-08-29', '040829-04-9135', '016-7903650', '37, Jalan Bakti, Taman Aman, 77300 Merlimau, Melaka', 'FOL', 'Malaysian', '3.47', '10', '1231110439@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231110671', 'Fitri Risya Alya binti Zainal', '2004-02-18', '040218-08-2110', '016-4520173', '74, Jalan Mewah 2, Kampung Aru, 36800 Kampung Gajah, Perak', 'FOB', 'Malaysian', '3.41', '10', '1231110671@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221108316', 'Danish Assafi bin Nor Saidi', '2004-06-14', '040614-02-1137', '012-6554002', '18, Jalan Butik 1, Kampung Bagan Sena, 09010 Kulim, Kedah', 'FET', 'Malaysian', '3.62', '3', '1221108216@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231109211', 'Edryana Sofea binti Mizan', '2004-09-24', 'S4583791E', '011-34278455', 'B-03-01, Jalan D1, Ixora Apartment, 75450, Bukit Beruang, Melaka', 'FIST', 'Singaporean', '3.72', '10', '1231109211@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211111431', 'Siti Nur Shakinah binti Sulaiman', '2004-04-02', '040402-01-4322', '010-4322891', '32, Jalan Bakti 2, Kampung Melayu, 81000 Kulai, Johor', 'FOL', 'Malaysian', '3.36', '8', '1211111431@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211108211', 'Joey Xu', '2004-03-16', 'EF7800400', '011-45560920', 'C-15-02, Jalan D1, Ixora Apartment, 75450, Bukit Beruang, Melaka', 'FOB', 'Chinese', '2.87', '8', '1211108211@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211163849', 'Pan How Wen', '2003-10-23', '031023-03-4673', '011-46380048', '45, Jalan Cermin, Taman Khazaniah, 18500, Machang, Kelantan', 'FOL', 'Malaysian', '3.33', '8', '1211163849@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221167492', 'Siow Xin Yue', '2003-07-12', '030712-02-4378', '012-47385829', '73, Jalan Emas, Kampung Berjaya, 05150, Alor Setar, Kedah', 'FOB', 'Malaysian', '3.57', '3', '1221167492@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231164824', 'Lee Yee Shean', '2003-10-28', '031028-03-4694', '011-47298492', '36, Jalan Batu 4, Taman Sri Jaya, 16250, Wakaf Bharu, Kelantan', 'FOB', 'Malaysian', '3.23', '10', '1231164824@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211175830', 'Yap Eu Cheng', '2003-07-16', '030716-03-5733', '011-46384729', '89, Jalan Hamzah Kanan, Taman Sri Aman, 15050, Kota Bharu, Kelantan', 'FIST', 'Malaysian', '3.01', '8', '1211175830@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221165739', 'Leow Sheng Nan', '2003-12-21', '031221-12-3681', '017-36294028', '64, Jalan Plaza, Taman Utaman, 88300, Kota Kinabalu, Sabah', 'FOL', 'Malaysian', '3.69', '3', '1221165739@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231152803', 'Calvin Chin Cai Wei', '2003-05-17', '030517-02-4623', '012-64920962', '21, Jalan Berempat, Kampung Pinang, 08210, Sik, Kedah', 'FOB', 'Malaysian', '2.35', '10', '1231152803@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211164920', 'Lee Jin Lan', '2004-04-12', '040412-13-5438', '012-74920539', '73, Jalan Nyatoh, Taman Ngri, 93300, Kuching, Sarawak', 'FOL', 'Malaysian', '3.79', '8', '1211164920@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221174903', 'Chen Yi Xuan', '2004-03-26', '040326-13-5734', '010-74929472', '28, Jalan Johari Sunchar, Kampung Duyoh, 94000, Bau, Sarawak', 'FOL', 'Malaysian', '2.48', '3', '1221174903@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231174930', 'Wong Zhi Peng', '2004-07-27', '040727-12-4639', '012-47296392', '83, Jalan Belia, Taman Bukit Nenas, 88100, Kota Kinabalu, Sabah', 'FOB', 'Malaysian', '2.83', '10', '1231174930@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211156395', 'Siti Nurjannati Binti Omar', '2004-11-25', '041125-12-4738', '010-78546620', '48, Jalan Selatan, Kampung Nelayan Baru, 88460, Kota Kinabalu, Sabah', 'FIST', 'Malaysian', '3.74', '8', '1211156395@student.mmu.edu.my');
+INSERT INTO STUDENT values('1221164829', 'Nur Syamimi Hadirah Binti Ahmad Hashim', '2004-02-06', '040206-11-4572', '016-9844730', '103, Jalan Air Jernih, Kampung Kota Lama, 20300, Kuala Terengganu, Terengganu', 'FOL', 'Malaysian', '3.36', '3', '1221164829@student.mmu.edu.my');
+INSERT INTO STUDENT values('1231174923', 'Puteri Mayang Nur Zulaikha Binti Mohammad Radzi', '2004-11-04', '041104-11-4734', '010-6557830', '01, Jalan Istana Kolam, Kampung Aur, 20000, Kuala Terengganu, Terengganu', 'FOB', 'Malaysian', '2.42', '10', '1231174923@student.mmu.edu.my');
+INSERT INTO STUDENT values('1211164820', 'Adam Iskandar Bin Mohd Zailani', '2004-03-21', '040321-07-5749', '011-56693307', '07, Jalan Seri Murni, Kampung Alor Merah, 13800, Butterworth, Pulau Pinang', 'FOB', 'Malaysian', '2.89', '8', '1211164820@student.mmu.edu.my');
+
+INSERT INTO SUBJECT VALUES('TMA1111', 'Mathematical Techniques', 'FIST', '4', '2.5');
+INSERT INTO SUBJECT VALUES('TDB6113', 'Database System', 'FIST', '4', '2.0');
+INSERT INTO SUBJECT VALUES('TCP6114', 'Computer Programming',  'FIST', '5', '2.0');
+INSERT INTO SUBJECT VALUES('TOS6113', 'Operating System', 'FIST', '4', '2.0');
+INSERT INTO SUBJECT VALUES('BDB3024', 'Digital Business', 'FOB', '3', '2.0');
+INSERT INTO SUBJECT VALUES('BME1014', 'Introductory Microeconomics', 'FOB', '3', '2.0');
+INSERT INTO SUBJECT VALUES('BMR1014', 'Fundamentals of Marketing', 'FOB', '3', '2.0');
+INSERT INTO SUBJECT VALUES('BBB1014', 'Understanding Management', 'FOB', '3', '2.0');
+INSERT INTO SUBJECT VALUES('TOP2121', 'Object-Oriented Programming', 'FIST', '3', '2.0');
+INSERT INTO SUBJECT VALUES('THI2211', 'Human Computer Interaction', 'FIST', '3', '2.0');
+INSERT INTO SUBJECT VALUES('TML2221', 'Machine Learning', 'FIST', '3', '2.0');
+INSERT INTO SUBJECT VALUES('TPR2251', 'Pattern Recognition', 'FIST', '3', '2.0');
+INSERT INTO SUBJECT VALUES('DWD5034', 'Web Design', 'FOB', '4', '2.0');
+INSERT INTO SUBJECT VALUES('DBS5024', 'E-Commerce', 'FOB', '3', '2.0');
+INSERT INTO SUBJECT VALUES('DBD5024', 'Business System Development', 'FOB', '4', '2.0');
+INSERT INTO SUBJECT VALUES('DCS5144', 'Intro to Information Systems', 'FOB', '3', '2.0');
+INSERT INTO SUBJECT VALUES('UEQ3612', 'Equity & Trust I', 'FOL', '3', '2.5');
+INSERT INTO SUBJECT VALUES('UCL3612', 'Company Law I', 'FOL', '3', '2.5');
+INSERT INTO SUBJECT VALUES('UDL3612', 'Land Law I', 'FOL', '3', '2.5');
+INSERT INTO SUBJECT VALUES('UPI3712', 'Public International Law', 'FOL', '4', '2.5');
+INSERT INTO SUBJECT VALUES('TCL3161', 'Cyber Law', 'FOL', '4', '2.0');
+INSERT INTO SUBJECT VALUES('EEM1016', 'Engineering Mathematics I', 'FET', '4', '2.0');
+INSERT INTO SUBJECT VALUES('ECP1016', 'Computer & Program Design', 'FET', '5', '2.5');
+INSERT INTO SUBJECT VALUES('ECT1016', 'Circuit Theory', 'FET', '4', '2.0');
+INSERT INTO SUBJECT VALUES('ECT1026', 'Field Theory', 'FET', '4', '2.0');
+
+INSERT INTO VENUE VALUES 
+('MCMR0001', 'Exam Hall', 500),
+('MEMR0001', 'Main Hall', 450),
+('MSMX0001', 'Central Lecture Complex', 300),
+('MSMX0002', 'Central Lecture Complex', 300),
+('MSMX0003', 'Central Lecture Complex', 300),
+('MSMX0004', 'Central Lecture Complex', 300),
+('MNCR1001', 'FIST C Building', 40),
+('MNCR1002', 'FIST C Building', 40),
+('MNCR1003', 'FIST C Building', 40),
+('MNCR1004', 'FIST C Building', 40),
+('MAMR2014', 'FOB Studio A', 150),
+('MAMR2001', 'FOB Studio B', 150),
+('MLMR0001', 'FET Building', 40),
+('MLMR0002', 'FET Building', 40),
+('MBMR1022', 'CDP Building', 200);
+
+INSERT INTO BOOKING VALUES('MBO206', '2023-07-14', '10:30:00', '13:00:00', 'MEMR0001', 'TMA1111');
+INSERT INTO BOOKING VALUES('MBO213', '2023-07-26', '08:30:00', '10:30:00', 'MCMR0001', 'TOS6113');
+INSERT INTO BOOKING VALUES('MBO230', '2023-08-15', '10:00:00', '12:00:00', 'MBMR1022', 'BDB3024');
+INSERT INTO BOOKING VALUES('MBO235', '2023-08-25', '14:00:00', '17:30:00', 'MLMR0002', 'ECT1026');
+INSERT INTO BOOKING VALUES('MBO271', '2023-09-08', '08:00:00', '10:00:00', 'MSMX0001', 'EEM1016');
+INSERT INTO BOOKING VALUES('MBO295', '2023-09-19', '09:30:00', '12:00:00', 'MSMX0003', 'UEQ3612');
+INSERT INTO BOOKING VALUES('MBO307', '2023-09-27', '16:00:00', '18:00:00', 'MAMR2001', 'BME1014');
+INSERT INTO BOOKING VALUES('MBO310', '2023-09-29', '08:00:00', '10:00:00', 'MNCR1001', 'TOP2121');
+INSERT INTO BOOKING VALUES('MBO365', '2023-10-19', '13:00:00', '17:00:00', 'MLMR0002', 'ECT1016');
+INSERT INTO BOOKING VALUES('MBO371', '2023-10-23', '11:00:00', '13:30:00', 'MCMR0001', 'UCL3612');
+INSERT INTO BOOKING VALUES('MBO386', '2023-11-07', '09:00:00', '11:30:00', 'MSMX0002', 'ECP1016');
+INSERT INTO BOOKING VALUES('MBO392', '2023-11-17', '09:00:00', '14:00:00', 'MNCR1001', 'THI2211');
+INSERT INTO BOOKING VALUES('MBO398', '2023-11-29', '10:30:00', '12:30:00', 'MAMR2014', 'BMR1014');
+INSERT INTO BOOKING VALUES('MBO411', '2023-12-06', '15:00:00', '17:00:00', 'MAMR2001', 'BBB1014');
+INSERT INTO BOOKING VALUES('MBO444', '2023-12-29', '09:00:00', '11:30:00', 'MEMR0001', 'TCL3161');
+INSERT INTO BOOKING VALUES('MBO458', '2024-01-04', '19:30:00', '22:00:00', 'MCMR0001', 'UDL3612');
+INSERT INTO BOOKING VALUES('MBO467', '2024-01-12', '09:00:00', '11:00:00', 'MSMX0004', 'ECT1016');
+INSERT INTO BOOKING VALUES('MBO473', '2024-01-23', '11:30:00', '15:00:00', 'MSMX0002', 'TML2221');
+
+INSERT INTO ASSIGNMENT values('10010010', 'EEM1016');
+INSERT INTO ASSIGNMENT values('10020011', 'UCL3612');
+INSERT INTO ASSIGNMENT values('10054306', 'DBD5024');
+INSERT INTO ASSIGNMENT values('10078009', 'TDB6113');
+INSERT INTO ASSIGNMENT values('10025008', 'BME1014');
+INSERT INTO ASSIGNMENT values('10050034', 'ECP1016');
+INSERT INTO ASSIGNMENT values('10012001', 'UDL3612');
+INSERT INTO ASSIGNMENT values('10036002', 'TPR2251');
+INSERT INTO ASSIGNMENT values('10050032', 'BBB1014');
+INSERT INTO ASSIGNMENT values('10060021', 'UEQ3612');
+INSERT INTO ASSIGNMENT values('10030078', 'DWD5034');
+INSERT INTO ASSIGNMENT values('10050921', 'UPI3712');
+INSERT INTO ASSIGNMENT values('10040021', 'TCL3161');
+INSERT INTO ASSIGNMENT values('10030510', 'ECT1016');
+INSERT INTO ASSIGNMENT values('10010056', 'TOS6113');
+INSERT INTO ASSIGNMENT values('10010056', 'THI2211');
+INSERT INTO ASSIGNMENT values('10010056', 'TPR2251');
+INSERT INTO ASSIGNMENT values('10010010', 'ECP1016');
+INSERT INTO ASSIGNMENT values('10050034', 'ECT1026');
+INSERT INTO ASSIGNMENT values('10078009', 'TMA1111');
+INSERT INTO ASSIGNMENT values('10078009', 'TML2221');
+INSERT INTO ASSIGNMENT values('10036002', 'TOP2121');
+INSERT INTO ASSIGNMENT values('10025008', 'BDB3024');
+INSERT INTO ASSIGNMENT values('10025008', 'DBS5024');
+INSERT INTO ASSIGNMENT values('10060021', 'TCL3161');
+INSERT INTO ASSIGNMENT values('10054306', 'DCS5144');
+
+INSERT INTO REGISTRATION values('1211109425', 'TDB6113');
+INSERT INTO REGISTRATION values('1211109425', 'TOS6113');
+INSERT INTO REGISTRATION values('1211109425', 'TMA1111');
+INSERT INTO REGISTRATION values('1211109425', 'TCP6114');
+INSERT INTO REGISTRATION values('1211111730', 'TDB6113');
+INSERT INTO REGISTRATION values('1211111730', 'TOS6113');
+INSERT INTO REGISTRATION values('1211111730', 'TMA1111');
+INSERT INTO REGISTRATION values('1211111730', 'TCP6114');
+INSERT INTO REGISTRATION values('1211109079', 'TDB6113');
+INSERT INTO REGISTRATION values('1211109079', 'TOS6113');
+INSERT INTO REGISTRATION values('1211109079', 'TMA1111');
+INSERT INTO REGISTRATION values('1211109079', 'TCP6114');
+INSERT INTO REGISTRATION values('1211109457', 'TDB6113');
+INSERT INTO REGISTRATION values('1211109457', 'TOS6113');
+INSERT INTO REGISTRATION values('1211109457', 'TMA1111');
+INSERT INTO REGISTRATION values('1211109457', 'TCP6114');
+INSERT INTO REGISTRATION values('1211110647', 'TDB6113');
+INSERT INTO REGISTRATION values('1211110647', 'TOS6113');
+INSERT INTO REGISTRATION values('1211110647', 'TMA1111');
+INSERT INTO REGISTRATION values('1211110647', 'TCP6114');
+INSERT INTO REGISTRATION values('1211109738', 'TDB6113');
+INSERT INTO REGISTRATION values('1211109738', 'TOS6113');
+INSERT INTO REGISTRATION values('1211109738', 'TMA1111');
+INSERT INTO REGISTRATION values('1211109738', 'TCP6114');
+INSERT INTO REGISTRATION values('1211109997', 'TDB6113');
+INSERT INTO REGISTRATION values('1211109997', 'TOS6113');
+INSERT INTO REGISTRATION values('1211109997', 'TMA1111');
+INSERT INTO REGISTRATION values('1211109997', 'TCP6114');
+INSERT INTO REGISTRATION values('1221103456', 'UDL3612');
+INSERT INTO REGISTRATION values('1221103456', 'UCL3612');
+INSERT INTO REGISTRATION values('1221103456', 'UEQ3612');
+INSERT INTO REGISTRATION values('1221103456', 'UPI3712');
+INSERT INTO REGISTRATION values('1221180462', 'ECP1016');
+INSERT INTO REGISTRATION values('1221180462', 'ECT1016');
+INSERT INTO REGISTRATION values('1221180462', 'ECT1026');
+INSERT INTO REGISTRATION values('1221180462', 'EEM1016');
+INSERT INTO REGISTRATION values('1221180457', 'UDL3612');
+INSERT INTO REGISTRATION values('1221180457', 'UCL3612');
+INSERT INTO REGISTRATION values('1221180457', 'UEQ3612');
+INSERT INTO REGISTRATION values('1221180457', 'UPI3712');
+INSERT INTO REGISTRATION values('1221106113', 'DBD5024');
+INSERT INTO REGISTRATION values('1221106113', 'DBS5024');
+INSERT INTO REGISTRATION values('1221106113', 'DCS5144');
+INSERT INTO REGISTRATION values('1221106113', 'DWD5034');
+INSERT INTO REGISTRATION values('1211111620', 'BBB1014');
+INSERT INTO REGISTRATION values('1211111620', 'BDB3024');
+INSERT INTO REGISTRATION values('1211111620', 'BME1014');
+INSERT INTO REGISTRATION values('1211111620', 'BMR1014');
+INSERT INTO REGISTRATION values('1211111545', 'UDL3612');
+INSERT INTO REGISTRATION values('1211111545', 'UCL3612');
+INSERT INTO REGISTRATION values('1211111545', 'UEQ3612');
+INSERT INTO REGISTRATION values('1211111545', 'UPI3712');
+INSERT INTO REGISTRATION values('1221176320', 'ECP1016');
+INSERT INTO REGISTRATION values('1221176320', 'ECT1016');
+INSERT INTO REGISTRATION values('1221176320', 'ECT1026');
+INSERT INTO REGISTRATION values('1221176320', 'EEM1016');
+INSERT INTO REGISTRATION values('1221170890', 'ECP1016');
+INSERT INTO REGISTRATION values('1221170890', 'ECT1016');
+INSERT INTO REGISTRATION values('1221170890', 'ECT1026');
+INSERT INTO REGISTRATION values('1221170890', 'EEM1016');
+INSERT INTO REGISTRATION values('1211109372', 'ECP1016');
+INSERT INTO REGISTRATION values('1211109372', 'ECT1016');
+INSERT INTO REGISTRATION values('1211109372', 'ECT1026');
+INSERT INTO REGISTRATION values('1211109372', 'EEM1016');
+INSERT INTO REGISTRATION values('1231106320', 'DBD5024');
+INSERT INTO REGISTRATION values('1231106320', 'DBS5024');
+INSERT INTO REGISTRATION values('1231106320', 'DCS5144');
+INSERT INTO REGISTRATION values('1231106320', 'DWD5034');
+INSERT INTO REGISTRATION values('1231107235', 'UDL3612');
+INSERT INTO REGISTRATION values('1231107235', 'UCL3612');
+INSERT INTO REGISTRATION values('1231107235', 'UEQ3612');
+INSERT INTO REGISTRATION values('1231107235', 'UPI3712');
+INSERT INTO REGISTRATION values('1231109254', 'ECP1016');
+INSERT INTO REGISTRATION values('1231109254', 'ECT1016');
+INSERT INTO REGISTRATION values('1231109254', 'ECT1026');
+INSERT INTO REGISTRATION values('1231109254', 'EEM1016');
+INSERT INTO REGISTRATION values('1231111903', 'DBD5024');
+INSERT INTO REGISTRATION values('1231111903', 'DBS5024');
+INSERT INTO REGISTRATION values('1231111903', 'DCS5144');
+INSERT INTO REGISTRATION values('1231111903', 'DWD5034');
+INSERT INTO REGISTRATION values('1221109172', 'DBD5024');
+INSERT INTO REGISTRATION values('1221109172', 'DBS5024');
+INSERT INTO REGISTRATION values('1221109172', 'DCS5144');
+INSERT INTO REGISTRATION values('1221109172', 'DWD5034');
+INSERT INTO REGISTRATION values('1211116788', 'TDB6113');
+INSERT INTO REGISTRATION values('1211116788', 'TOS6113');
+INSERT INTO REGISTRATION values('1211116788', 'TMA1111');
+INSERT INTO REGISTRATION values('1211116788', 'TCP6114');
+INSERT INTO REGISTRATION values('1221176290', 'DBD5024');
+INSERT INTO REGISTRATION values('1221176290', 'DBS5024');
+INSERT INTO REGISTRATION values('1221176290', 'DCS5144');
+INSERT INTO REGISTRATION values('1221176290', 'DWD5034');
+INSERT INTO REGISTRATION values('1231145307', 'UDL3612');
+INSERT INTO REGISTRATION values('1231145307', 'UCL3612');
+INSERT INTO REGISTRATION values('1231145307', 'UEQ3612');
+INSERT INTO REGISTRATION values('1231145307', 'UPI3712');
+INSERT INTO REGISTRATION values('1211163749', 'UDL3612');
+INSERT INTO REGISTRATION values('1211163749', 'UCL3612');
+INSERT INTO REGISTRATION values('1211163749', 'UEQ3612');
+INSERT INTO REGISTRATION values('1211163749', 'UPI3712');
+INSERT INTO REGISTRATION values('1221163823', 'DBD5024');
+INSERT INTO REGISTRATION values('1221163823', 'DBS5024');
+INSERT INTO REGISTRATION values('1221163823', 'DCS5144');
+INSERT INTO REGISTRATION values('1221163823', 'DWD5034');
+INSERT INTO REGISTRATION values('1211111161', 'BBB1014');
+INSERT INTO REGISTRATION values('1211111161', 'BDB3024');
+INSERT INTO REGISTRATION values('1211111161', 'BME1014');
+INSERT INTO REGISTRATION values('1211111161', 'BMR1014');
+INSERT INTO REGISTRATION values('1221190438', 'ECP1016');
+INSERT INTO REGISTRATION values('1221190438', 'ECT1016');
+INSERT INTO REGISTRATION values('1221190438', 'ECT1026');
+INSERT INTO REGISTRATION values('1221190438', 'EEM1016');
+INSERT INTO REGISTRATION values('1231110780', 'UDL3612');
+INSERT INTO REGISTRATION values('1231110780', 'UCL3612');
+INSERT INTO REGISTRATION values('1231110780', 'UEQ3612');
+INSERT INTO REGISTRATION values('1231110780', 'UPI3712');
+INSERT INTO REGISTRATION values('1221109328', 'THI2211');
+INSERT INTO REGISTRATION values('1221109328', 'TML2221');
+INSERT INTO REGISTRATION values('1221109328', 'TOP2121');
+INSERT INTO REGISTRATION values('1221109328', 'TPR2251');
+INSERT INTO REGISTRATION values('1231110439', 'UDL3612');
+INSERT INTO REGISTRATION values('1231110439', 'UCL3612');
+INSERT INTO REGISTRATION values('1231110439', 'UEQ3612');
+INSERT INTO REGISTRATION values('1231110439', 'UPI3712');
+INSERT INTO REGISTRATION values('1231110671', 'DBD5024');
+INSERT INTO REGISTRATION values('1231110671', 'DBS5024');
+INSERT INTO REGISTRATION values('1231110671', 'DCS5144');
+INSERT INTO REGISTRATION values('1231110671', 'DWD5034');
+INSERT INTO REGISTRATION values('1221108316', 'ECP1016');
+INSERT INTO REGISTRATION values('1221108316', 'ECT1016');
+INSERT INTO REGISTRATION values('1221108316', 'ECT1026');
+INSERT INTO REGISTRATION values('1221108316', 'EEM1016');
+INSERT INTO REGISTRATION values('1231109211', 'THI2211');
+INSERT INTO REGISTRATION values('1231109211', 'TML2221');
+INSERT INTO REGISTRATION values('1231109211', 'TOP2121');
+INSERT INTO REGISTRATION values('1231109211', 'TPR2251');
+INSERT INTO REGISTRATION values('1211111431', 'UDL3612');
+INSERT INTO REGISTRATION values('1211111431', 'UCL3612');
+INSERT INTO REGISTRATION values('1211111431', 'UEQ3612');
+INSERT INTO REGISTRATION values('1211111431', 'UPI3712');
+INSERT INTO REGISTRATION values('1211108211', 'BBB1014');
+INSERT INTO REGISTRATION values('1211108211', 'BDB3024');
+INSERT INTO REGISTRATION values('1211108211', 'BME1014');
+INSERT INTO REGISTRATION values('1211108211', 'BMR1014');
+INSERT INTO REGISTRATION values('1211163849', 'UDL3612');
+INSERT INTO REGISTRATION values('1211163849', 'UCL3612');
+INSERT INTO REGISTRATION values('1211163849', 'UEQ3612');
+INSERT INTO REGISTRATION values('1211163849', 'UPI3712');
+INSERT INTO REGISTRATION values('1221167492', 'DBD5024');
+INSERT INTO REGISTRATION values('1221167492', 'DBS5024');
+INSERT INTO REGISTRATION values('1221167492', 'DCS5144');
+INSERT INTO REGISTRATION values('1221167492', 'DWD5034');
+INSERT INTO REGISTRATION values('1231164824', 'DBD5024');
+INSERT INTO REGISTRATION values('1231164824', 'DBS5024');
+INSERT INTO REGISTRATION values('1231164824', 'DCS5144');
+INSERT INTO REGISTRATION values('1231164824', 'DWD5034');
+INSERT INTO REGISTRATION values('1211175830', 'TDB6113');
+INSERT INTO REGISTRATION values('1211175830', 'TOS6113');
+INSERT INTO REGISTRATION values('1211175830', 'TMA1111');
+INSERT INTO REGISTRATION values('1211175830', 'TCP6114');
+INSERT INTO REGISTRATION values('1221165739', 'UDL3612');
+INSERT INTO REGISTRATION values('1221165739', 'UCL3612');
+INSERT INTO REGISTRATION values('1221165739', 'UEQ3612');
+INSERT INTO REGISTRATION values('1221165739', 'UPI3712');
+INSERT INTO REGISTRATION values('1231152803', 'DBD5024');
+INSERT INTO REGISTRATION values('1231152803', 'DBS5024');
+INSERT INTO REGISTRATION values('1231152803', 'DCS5144');
+INSERT INTO REGISTRATION values('1231152803', 'DWD5034');
+INSERT INTO REGISTRATION values('1211164920', 'UDL3612');
+INSERT INTO REGISTRATION values('1211164920', 'UCL3612');
+INSERT INTO REGISTRATION values('1211164920', 'UEQ3612');
+INSERT INTO REGISTRATION values('1211164920', 'UPI3712');
+INSERT INTO REGISTRATION values('1221174903', 'UDL3612');
+INSERT INTO REGISTRATION values('1221174903', 'UCL3612');
+INSERT INTO REGISTRATION values('1221174903', 'UEQ3612');
+INSERT INTO REGISTRATION values('1221174903', 'UPI3712');
+INSERT INTO REGISTRATION values('1231174930', 'DBD5024');
+INSERT INTO REGISTRATION values('1231174930', 'DBS5024');
+INSERT INTO REGISTRATION values('1231174930', 'DCS5144');
+INSERT INTO REGISTRATION values('1231174930', 'DWD5034');
+INSERT INTO REGISTRATION values('1211156395', 'TDB6113');
+INSERT INTO REGISTRATION values('1211156395', 'TOS6113');
+INSERT INTO REGISTRATION values('1211156395', 'TMA1111');
+INSERT INTO REGISTRATION values('1211156395', 'TCP6114');
+INSERT INTO REGISTRATION values('1221164829', 'UDL3612');
+INSERT INTO REGISTRATION values('1221164829', 'UCL3612');
+INSERT INTO REGISTRATION values('1221164829', 'UEQ3612');
+INSERT INTO REGISTRATION values('1221164829', 'UPI3712');
+INSERT INTO REGISTRATION values('1231174923', 'BBB1014');
+INSERT INTO REGISTRATION values('1231174923', 'BDB3024');
+INSERT INTO REGISTRATION values('1231174923', 'BME1014');
+INSERT INTO REGISTRATION values('1231174923', 'BMR1014');
+INSERT INTO REGISTRATION values('1211164820', 'BBB1014');
+INSERT INTO REGISTRATION values('1211164820', 'BDB3024');
+INSERT INTO REGISTRATION values('1211164820', 'BME1014');
+INSERT INTO REGISTRATION values('1211164820', 'BMR1014');
+
+b) For DDL:
+
+i. The following CREATE statement creates a new table named FACULTY in a database.
+
+CREATE TABLE FACULTY(
+Fac_Code CHAR(4) NOT NULL,
+Fac_Name VARCHAR(30),
+PRIMARY KEY(Fac_Code));
+
+
+ii. The following ALTER statement modifies the datatype of a column in a table named FACULTY from CHAR(4) to VARCHAR(4). 
+
+ALTER TABLE FACULTY
+MODIFY COLUMN Fac_Code VARCHAR(4) NOT NULL;
+
+iii. The following DROP statement helps to delete the table named FACULTY in a database.
+
+DROP TABLE FACULTY;
+
+c) For DML:
+
+i. The following SELECT statement displays all the records of a table named VENUE in our database.
+
+SELECT * FROM VENUE;
+
+ii. This INSERT INTO statement will insert a new venue with the code 'MCMR0002', name 'Extension Exam Hall', and a capacity of 250 into the VENUE table.
+
+INSERT INTO VENUE VALUES('MCMR0002', 'Extension Exam Hall', 250);
+
+iii. This UPDATE statement will update the Venue_Capacity to 300 for all records in the VENUE table where the Venue_Name is Extension Exam Hall.
+
+UPDATE VENUE
+SET Venue_Capacity = 300
+WHERE Venue_Name = 'Extension Exam Hall';
+
+iv. This DELETE statement will delete the records from the VENUE table where the Venue_Code is MCMR0002.
+
+DELETE FROM VENUE WHERE Venue_Code = 'MCMR0002';
+
+
+v. This SELECT statement displays all the venues in the records and sorts according to Venue_Name.
+
+SELECT * FROM VENUE
+ORDER BY Venue_Name;
+
+vi. This SELECT statement displays all the records in the VENUE table which holds the requirement that Venue_Capacity must be greater than 200.
+
+SELECT * FROM VENUE 
+WHERE Venue_Capacity > 200;
+
+vii. This SELECT statement displays the total number of venues for examination and the total number of seats for examination in the database by using the aggregate function in SQL (COUNT and SUM).
+
+SELECT COUNT(Venue_Code) AS TotalNumberOfVenue, SUM(Venue_Capacity) AS TotalNumberOfSeat FROM VENUE;
+
+viii.This SELECT statement displays all the exam booking information which holds the requirement that displaying Venue Name instead of Venue Code and Subject Name instead of Subject Code. Only the specific columns be selected, and the columns may also not be in the same table by using the INNER JOIN or specific the column they are from.
+
+SELECT BOOKING.Book_Code, BOOKING.Book_Date, BOOKING.Book_Stime, BOOKING.Book_Etime, VENUE.Venue_Name, SUBJECT.Sub_Name FROM BOOKING INNER JOIN VENUE ON BOOKING.Venue_Code = VENUE.Venue_Code INNER JOIN SUBJECT ON BOOKING.Sub_Code = SUBJECT.Sub_Code;
+
+OR
+
+SELECT BOOKING.Book_Code, BOOKING.Book_Date, BOOKING.Book_Stime, BOOKING.Book_Etime, VENUE.Venue_Name, SUBJECT.Sub_Name FROM BOOKING, VENUE, SUBJECT 
+WHERE BOOKING.Venue_Code = VENUE.Venue_Code AND BOOKING.Sub_Code = SUBJECT.Sub_Code;
+
+ix.This SELECT statement will display the subject codes and the corresponding counts for subjects that have been booked for exams two or more times in the BOOKING table.
+
+SELECT Sub_Code, COUNT(Sub_Code) FROM BOOKING GROUP BY Sub_Code HAVING COUNT(Sub_Code) >= 2;
+
+x. This SELECT statement will display subject codes, subject names, and the count of bookings for subjects that have been booked for exams more than once.
+
+SELECT Sub_Code, Sub_Name, (SELECT COUNT(*) FROM BOOKING WHERE BOOKING.Sub_Code = SUBJECT.Sub_Code) AS BookingCount FROM SUBJECT WHERE (SELECT COUNT(*) FROM BOOKING WHERE BOOKING.Sub_Code = SUBJECT.Sub_Code) >= 2;
+
+d) For Function:
+This function takes a subject code as a parameter and returns the number of students registered for that subject. It counts the number of students by counting the rows in the REGISTRATION table where the Sub_Code matches the specified subject code.
+
+DELIMITER $$
+
+CREATE FUNCTION NumberOfStudRegisterSpecificSub(subject_code VARCHAR(9))
+RETURNS INT
+BEGIN
+    DECLARE student_count INT;
+
+    SELECT COUNT(*) INTO student_count
+    FROM REGISTRATION
+    WHERE Sub_Code = subject_code;
+
+    RETURN student_count;
+END $$
+
+DELIMITER ;
+
+SELECT Sub_Code, Sub_Name, NumberOfStudRegisterSpecificSub(Sub_Code) AS NumberOfStudents
+FROM SUBJECT
+WHERE Sub_Code = 'TOS6113';
+
+e) For Procedure:
+i.	This procedure, when called with a specific student ID as a parameter, will retrieve information about that student's exam schedule. It includes details such as the student's ID and name, the subject codes and names they are registered for, and the date, start time, end time, and venue information for the exams (if available). The use of LEFT JOIN ensures that even if a student is registered for subjects without exams or exams without venues, the information is still included in the result.
+
+DELIMITER $$
+CREATE PROCEDURE STUDExamScheduleReport(IN StudentID CHAR(10))
+BEGIN
+    SELECT
+        STUDENT.Std_ID,
+        STUDENT.Std_Name,
+        REGISTRATION.Sub_Code,
+        SUBJECT.Sub_Name,
+        BOOKING.Book_Date,
+        BOOKING.Book_Stime,
+        BOOKING.Book_Etime,
+        VENUE.Venue_Name
+    FROM
+        STUDENT
+    JOIN
+        REGISTRATION ON STUDENT.Std_ID = REGISTRATION.Std_ID
+    JOIN
+        SUBJECT ON REGISTRATION.Sub_Code = SUBJECT.Sub_Code
+    LEFT JOIN
+        BOOKING ON SUBJECT.Sub_Code = BOOKING.Sub_Code
+    LEFT JOIN
+        VENUE ON BOOKING.Venue_Code = VENUE.Venue_Code
+    WHERE
+        STUDENT.Std_ID = StudentID;
+END$$
+DELIMITER ;
+
+call STUDExamScheduleReport(1211110647);
+
+f)For trigger:
+This trigger checks for booking conflicts when a new booking is inserted into the BOOKING table and raises an error if a conflict is found.
+
+DELIMITER $$
+CREATE TRIGGER BookingConflictChecking
+BEFORE INSERT ON BOOKING
+FOR EACH ROW
+BEGIN
+    DECLARE Conflict_Count INT;
+
+    -- Check if there is a booking conflict for the same venue and time
+    SELECT COUNT(*)
+    INTO Conflict_Count
+    FROM BOOKING
+    WHERE Venue_Code = NEW.Venue_Code
+      AND Book_Date = NEW.Book_Date
+      AND ((NEW.Book_Stime < Book_Etime AND NEW.Book_Etime > Book_Stime)
+           OR (NEW.Book_Etime > Book_Stime AND NEW.Book_Stime < Book_Etime));
+
+    -- If conflict is found, raise error
+    IF Conflict_Count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Booking conflict found. Please choose different time slot or venue!!!';
+    END IF;
+END $$
+DELIMITER ;
