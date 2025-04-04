@@ -21,11 +21,11 @@ Each lecturer can book the venue for examination for each subject. Booking numbe
   a. Each lecturer has many subject assignments. \
   b. Each assignment has assigned by a lecturer. \
   c. Each subject has many assignments. \
-  d. Each assignment has belonged to a subject. \
+  d. Each assignment has belonged to a subject. 
 2) Each student can register many subjects. Each subject can be registered by many students. \
   a. Each student has many subject registrations.\
   b. Each registration is made by a student.\
   c. Each subject has many subject registrations.\
-  d. Each registration has belonged to a subject.\
-3) Each subject may make many bookings. Each booking is for a subject.\
+  d. Each registration has belonged to a subject.
+3) Each subject may make many bookings. Each booking is for a subject.
 4) Each venue may make has bookings. Each booking is for a venue.
