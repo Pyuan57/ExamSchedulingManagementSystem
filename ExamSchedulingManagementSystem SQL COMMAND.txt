@@ -1,4 +1,4 @@
-TDB PROJECT SQL COMMAND:
+SQL COMMAND:
 
 a)The subsequent queries initiate the process of creating the database that stores the records. The content comprises the CREATE and INSERT SQL statements of the database. 
 
