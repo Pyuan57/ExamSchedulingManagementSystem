@@ -1,4 +1,4 @@
-# Exam Scheduling Management System
+# Exam Scheduling Management System (Database)
 This database system is developed for exam scheduling management. Information has been collected from each faculty in MMU and report according to each category. 
 
 ### Lecturers
