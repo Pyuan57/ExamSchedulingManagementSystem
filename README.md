@@ -1,5 +1,5 @@
 # Exam Scheduling Management System
-This database system is developed for exam scheduling management. Information has been collected from each faculty and report according to each category. 
+This database system is developed for exam scheduling management. Information has been collected from each faculty in MMU and report according to each category. 
 
 ### Lecturers
 Lecturers are the persons who are teaching and guiding students in the university in the learning process. There are many lecturers for each faculty and each lecturer is responsible for different subjects. They are also responsible for booking the exam time and exam venue for the subject they taught. Each lecturer has a unique lecturer ID. The data stored regarding each lecturer includes lecturer ID, name, address, contact number, faculty, subject code and email address.
@@ -29,3 +29,12 @@ Each lecturer can book the venue for examination for each subject. Booking numbe
   d. Each registration has belonged to a subject.
 3) Each subject may make many bookings. Each booking is for a subject.
 4) Each venue may make has bookings. Each booking is for a venue.
+
+## Entity Relational Diagram (ERD)
+### Crow’s Foot:
+![Picture1](https://github.com/user-attachments/assets/06b2959e-491d-43a0-b9bd-ab0fdb065299)
+### Chen's Model:
+![Picture2](https://github.com/user-attachments/assets/8f4a2c4b-28a6-4325-bbe1-a9119c84d475)
+
+
+
